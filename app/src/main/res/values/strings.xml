@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Планировщик дня</string>
+    <string name="add">Добавить</string>
+    <string name="delete">Удалить</string>
+    <string name="save">Сохранить</string>
+    <string name="name">Название</string>
+    <string name="description">Описание</string>
+
+    <string name="defaultErrorText">Ошибка! Попробуйте снова</string>
+    <string name="errorEmptyText">Пожалуйста, заполните все обязательные поля!</string>
+    <string name="errorInvalidTime">Время старта должно быть меньше времени окончания!</string>
+    <string name="successSavePlanText">План добавлен успешно</string>
+    <string name="successDeletePlanText">План добавлен удален</string>
+
+    <string name="time_range_pattern" translatable="false">%1s - %2s</string>
+</resources>
