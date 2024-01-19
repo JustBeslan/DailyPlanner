@@ -10,26 +10,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import simbirsoft.task.dailyplanner.R
-import simbirsoft.task.dailyplanner.presentation.model.PlanModel
 import simbirsoft.task.dailyplanner.common.model.ImmutableList
 import simbirsoft.task.dailyplanner.common.ui.ThemePreviewParameter
 import simbirsoft.task.dailyplanner.common.ui.theme.DailyPlannerTheme
+import simbirsoft.task.dailyplanner.presentation.model.PlanModel
 
 @Composable
 fun HourBlock(
-    timeStart: String,
-    timeEnd: String,
     plansForHour: ImmutableList<PlanModel>,
     onPlanClick: (Long) -> Unit,
 ) {
@@ -38,14 +31,6 @@ fun HourBlock(
             .background(MaterialTheme.colorScheme.background)
             .height(90.dp),
     ) {
-        Text(
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(5.dp),
-            text = stringResource(R.string.time_range_pattern, timeStart, timeEnd),
-            color = MaterialTheme.colorScheme.primary,
-            fontSize = TextUnit(15f, TextUnitType.Sp),
-        )
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,8 +57,6 @@ private fun HourBlockPreview(
     @PreviewParameter(ThemePreviewParameter::class) inDark: Boolean
 ) = DailyPlannerTheme(inDark) {
     HourBlock(
-        timeStart = "10:00",
-        timeEnd = "11:00",
         onPlanClick = {},
         plansForHour = ImmutableList(
             list = listOf(

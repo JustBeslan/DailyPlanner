@@ -4,13 +4,13 @@ import simbirsoft.task.dailyplanner.common.extensions.UTC_ZONE
 import simbirsoft.task.dailyplanner.common.extensions.toLong
 import simbirsoft.task.dailyplanner.common.model.BaseState
 import simbirsoft.task.dailyplanner.common.model.ImmutableList
-import simbirsoft.task.dailyplanner.presentation.model.PlansForHourModel
+import simbirsoft.task.dailyplanner.presentation.model.PlansOnHourModel
 import java.time.LocalDateTime
 import java.time.LocalTime
 
 data class DailyPlannerState(
     val selectedDate: Long,
-    val plans: ImmutableList<PlansForHourModel>,
+    val plans: ImmutableList<PlansOnHourModel>,
 ) : BaseState {
     companion object {
         fun provideInitialState(): DailyPlannerState = DailyPlannerState(

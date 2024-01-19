@@ -67,7 +67,6 @@ class PlanDetailViewModel @AssistedInject constructor(
             localPlanModel.startDateTime.toLong() >= localPlanModel.endDateTime.toLong() -> {
                 R.string.errorInvalidTime
             }
-
             else -> null
         }
 

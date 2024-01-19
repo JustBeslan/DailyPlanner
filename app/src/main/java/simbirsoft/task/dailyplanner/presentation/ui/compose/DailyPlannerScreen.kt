@@ -8,10 +8,13 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -24,6 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,18 +36,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import simbirsoft.task.dailyplanner.R
-import simbirsoft.task.dailyplanner.common.extensions.toFormatTime
 import simbirsoft.task.dailyplanner.common.model.ImmutableList
 import simbirsoft.task.dailyplanner.common.ui.ThemePreviewParameter
 import simbirsoft.task.dailyplanner.common.ui.theme.DailyPlannerTheme
 import simbirsoft.task.dailyplanner.presentation.model.PlanModel
-import simbirsoft.task.dailyplanner.presentation.model.PlansForHourModel
+import simbirsoft.task.dailyplanner.presentation.model.PlansOnHourModel
 import simbirsoft.task.dailyplanner.presentation.model.event.DailyPlannerEvent
 import simbirsoft.task.dailyplanner.presentation.model.state.DailyPlannerState
 import simbirsoft.task.dailyplanner.presentation.ui.compose.component.DailyPlannerButton
@@ -76,8 +80,8 @@ fun DailyPlannerScreen(
             )
             Box(
                 modifier = Modifier
-                    .height(3.dp)
-                    .background(MaterialTheme.colorScheme.secondary)
+                    .height(1.dp)
+                    .background(MaterialTheme.colorScheme.primary)
                     .fillMaxWidth(),
             )
             ListPlans(
@@ -148,7 +152,7 @@ private fun DatePicker(
 
 @Composable
 private fun ListPlans(
-    plans: ImmutableList<PlansForHourModel>,
+    plans: ImmutableList<PlansOnHourModel>,
     onScrollPlans: (Boolean) -> Unit,
     onPlanClick: (Long) -> Unit,
 ) {
@@ -167,15 +171,14 @@ private fun ListPlans(
             items = plans.list,
             key = { _, item -> item.timeStart }
         ) { index, item ->
+            if (index == 0) {
+                PlanDivider(hour = item.timeStart.hour.toString())
+            }
             HourBlock(
-                timeStart = item.timeStart.toFormatTime(),
-                timeEnd = item.timeEnd.toFormatTime(),
                 plansForHour = ImmutableList(item.plans),
                 onPlanClick = onPlanClick
             )
-            if (index != plans.list.lastIndex) {
-                Divider(color = MaterialTheme.colorScheme.tertiary)
-            }
+            PlanDivider(hour = item.timeEnd.hour.toString())
         }
     }
 
@@ -192,6 +195,22 @@ private fun ListPlans(
     }
 }
 
+@Composable
+private fun PlanDivider(hour: String) {
+    Row(
+        modifier = Modifier
+            .padding(5.dp),
+    ) {
+        Text(hour)
+        Spacer(modifier = Modifier.width(5.dp))
+        Divider(
+            modifier = Modifier
+                .align(Alignment.CenterVertically),
+            color = MaterialTheme.colorScheme.tertiary
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun DailyPlannerScreenPreview(
@@ -201,7 +220,7 @@ private fun DailyPlannerScreenPreview(
         state = DailyPlannerState.provideInitialState().copy(
             plans = ImmutableList(
                 list = listOf(
-                    PlansForHourModel(
+                    PlansOnHourModel(
                         timeStart = LocalTime.of(10, 0),
                         timeEnd = LocalTime.of(11, 0),
                         plans = listOf(
@@ -213,7 +232,7 @@ private fun DailyPlannerScreenPreview(
                             ),
                         )
                     ),
-                    PlansForHourModel(
+                    PlansOnHourModel(
                         timeStart = LocalTime.of(11, 0),
                         timeEnd = LocalTime.of(12, 0),
                         plans = listOf(
